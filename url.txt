@@ -1,105 +1,1 @@
-Struktur Folder Submission (Final - Sesuai Dicoding)
-text
-submission/
-?
-??? dashboard/
-?   ??? main_data.csv
-?   ??? dashboard.py
-?
-??? data/
-?   ??? olist_customers_dataset.csv
-?   ??? olist_geolocation_dataset.csv
-?   ??? olist_order_items_dataset.csv
-?   ??? olist_order_payments_dataset.csv
-?   ??? olist_order_reviews_dataset.csv
-?   ??? olist_orders_dataset.csv
-?   ??? olist_products_dataset.csv
-?   ??? olist_sellers_dataset.csv
-?   ??? product_category_name_translation.csv
-?
-??? notebook.ipynb
-??? README.md
-??? requirements.txt
-??? url.txt (opsional, jika deploy ke Streamlit Cloud)
-
-Penjelasan Penting:
-KomponenLetakKeterangandashboard.pyDi dalam folder dashboard/File aplikasi Streamlitmain_data.csvDi dalam folder dashboard/Data hasil cleaning (RFM)delay_analysis.csvTidak disebutkan di struktur Dicoding, tapi Anda perlu menyertakannya juga di folder dashboard/ karena dashboard Anda membutuhkannya. Jadi tambahkan saja.Data delay & reviewSemua CSV asliDi dalam folder data/9 file dari Olistnotebook.ipynbDi root (sejajar dengan folder dashboard dan data)Notebook analisis lengkapREADME.mdDi rootPanduan menjalankan dashboardrequirements.txtDi rootDaftar libraryurl.txtDi rootTautan jika deploy (opsional)
-Langkah Membuat Struktur Ini (Lengkap)
-1. Buat folder utama bernama submission di Desktop.
-2. Di dalam folder submission, buat dua subfolder:
-o dashboard
-o data
-3. Isi folder dashboard dengan:
-o main_data.csv (download dari Colab)
-o delay_analysis.csv (download dari Colab)
-o dashboard.py (file kode Streamlit, versi yang sudah disesuaikan path-nya)
-4. Isi folder data dengan 9 file CSV asli Olist.
-5. Di root submission (sejajar dengan folder dashboard dan data), letakkan:
-o notebook.ipynb
-o README.md
-o requirements.txt
-o url.txt (opsional, kosongkan jika tidak ada)
-
-Kode dashboard.py yang Benar untuk Struktur Ini
-Karena dashboard.py sekarang berada di dalam folder dashboard, dan file CSV juga di folder yang sama, maka path baca CSV-nya cukup nama file saja. Gunakan kode di bawah ini:
-python
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-st.set_page_config(page_title="Olist Dashboard", layout="wide")
-st.title("?? Olist E-Commerce Dashboard")
-
-# Karena CSV berada di folder yang sama dengan dashboard.py
-@st.cache_data
-def load_data():
-    rfm = pd.read_csv('main_data.csv')
-    delay = pd.read_csv('delay_analysis.csv')
-    return rfm, delay
-
-rfm, delay = load_data()
-
-tab1, tab2 = st.tabs(["Segmentasi RFM", "Dampak Keterlambatan"])
-
-with tab1:
-    st.subheader("Distribusi Segmen")
-    col1, col2 = st.columns(2)
-    with col1:
-        fig, ax = plt.subplots()
-        rfm['segment'].value_counts().plot.pie(autopct='%1.1f%%', ax=ax)
-        st.pyplot(fig)
-    with col2:
-        fig, ax = plt.subplots()
-        rfm.groupby('segment')['payment_value'].sum().plot.bar(ax=ax)
-        st.pyplot(fig)
-
-with tab2:
-    st.subheader("Korelasi Delay vs Review")
-    corr = delay['delay_days'].corr(delay['review_score'])
-    st.metric("Korelasi Pearson", f"{corr:.2f}")
-    fig, ax = plt.subplots()
-    sns.boxplot(x=delay['delay_days']>0, y=delay['review_score'], ax=ax)
-    ax.set_xticklabels(['Tepat Waktu','Terlambat'])
-    st.pyplot(fig)
-
-Isi requirements.txt (di root)
-text
-pandas
-numpy
-matplotlib
-seaborn
-streamlit
-scipy
-
-Isi README.md (di root)
-markdown
-# Olist E-Commerce Dashboard
-
-## Cara Menjalankan
-1. Buka terminal/command prompt di folder `submission`
-2. Install library: `pip install -r requirements.txt`
-3. Masuk ke folder dashboard: `cd dashboard`
-4. Jalankan: `streamlit run dashboard.py`
-5. Dashboard akan terbuka di browser.
-
+https://submision-edcexn4mhawuxvvagjmadn.streamlit.app/
