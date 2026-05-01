@@ -426,9 +426,6 @@ with tab1:
 # ===========================================================================
 # TAB 2 — DELAY & REVIEWS
 # ===========================================================================
-# ===========================================================================
-# TAB 2 — DELAY & REVIEWS
-# ===========================================================================
 with tab2:
     st.subheader("Dampak Keterlambatan Pengiriman terhadap Kepuasan Pelanggan")
 
@@ -437,43 +434,39 @@ with tab2:
     # --- Chart 3: Regresi Health & Beauty ---
     with col_a:
         st.markdown("**Tren Skor: Kategori Health & Beauty**")
-        
-        # SABUK PENGAMAN: Cek apakah data kosong
-        if health_df.empty:
-            st.warning("⚠️ Tidak ada data keterlambatan produk Health & Beauty pada rentang tanggal ini.")
-        else:
-            fig3, ax3 = plt.subplots(figsize=(6.5, 4.5))
-            sns.regplot(
-                x="delay_days",
-                y="review_score",
-                data=health_df,
-                scatter_kws={"alpha": 0.25, "color": "#3498DB", "s": 20},
-                line_kws={"color": "#E74C3C", "linewidth": 2},
-                ax=ax3,
-            )
 
-            ax3.set_xlabel("Keterlambatan (hari)", fontsize=11, fontweight="bold", labelpad=10)
-            ax3.set_ylabel("Skor Ulasan (1–5)",    fontsize=11, fontweight="bold", labelpad=10)
-            ax3.set_xlim(DELAY_XLIM)
-            ax3.set_ylim(REVIEW_SCORE_MIN - 0.2, REVIEW_SCORE_MAX + 0.2)
+        fig3, ax3 = plt.subplots(figsize=(6.5, 4.5))
+        sns.regplot(
+            x="delay_days",
+            y="review_score",
+            data=health_df,
+            scatter_kws={"alpha": 0.25, "color": "#3498DB", "s": 20},
+            line_kws={"color": "#E74C3C", "linewidth": 2},
+            ax=ax3,
+        )
 
-            clean_axes(ax3)
-            fig3.tight_layout()
+        ax3.set_xlabel("Keterlambatan (hari)", fontsize=11, fontweight="bold", labelpad=10)
+        ax3.set_ylabel("Skor Ulasan (1–5)",    fontsize=11, fontweight="bold", labelpad=10)
+        ax3.set_xlim(DELAY_XLIM)
+        ax3.set_ylim(REVIEW_SCORE_MIN - 0.2, REVIEW_SCORE_MAX + 0.2)
 
-            st.pyplot(fig3)
-            plt.close(fig3)
+        clean_axes(ax3)  # FIX #2: ax eksplisit
+        fig3.tight_layout()
+
+        st.pyplot(fig3)
+        plt.close(fig3)
 
     # --- Chart 4: Line Toleransi Keterlambatan ---
     with col_b:
         st.markdown(f"**Toleransi Keterlambatan: {TOP_N_CATEGORIES} Kategori Teratas**")
 
-        # SABUK PENGAMAN: Cek apakah data kosong
+        # FIX: Cegah error "no numeric data" jika data kosong karena filter tanggal
         if delay_pivot.empty:
-            st.warning("⚠️ Data kosong pada rentang tanggal ini. Silakan perluas rentang tanggal di sidebar.")
+            st.warning("⚠️ Data kosong pada rentang tanggal ini. Silakan atur ulang tanggal.")
         else:
             fig4, ax4 = plt.subplots(figsize=(7, 4.5))
             
-            # Pastikan jumlah warna pas dengan sisa data
+            # Pastikan jumlah warna sesuai dengan jumlah kategori
             warna_sesuai = PALETTE_LINE[:len(delay_pivot)]
             delay_pivot.T.plot(marker="o", ax=ax4, color=warna_sesuai, linewidth=2, markersize=5)
 
@@ -483,7 +476,7 @@ with tab2:
             ax4.tick_params(axis="x", rotation=15)
             ax4.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=9, title="Kategori")
 
-            clean_axes(ax4)
+            clean_axes(ax4) 
             fig4.tight_layout()
 
             st.pyplot(fig4)
