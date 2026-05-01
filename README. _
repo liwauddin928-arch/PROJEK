@@ -1,21 +1,19 @@
-# 🛒 Olist E-Commerce Dashboard
+## Proyek ini adalah *dashboard* analisis data interaktif untuk dataset publik E-Commerce Olist Brazil. Dibuat menggunakan Python, Streamlit, Pandas, Matplotlib, dan Seaborn untuk memenuhi tugas akhir kelas Belajar Analisis Data dengan Python di Dicoding.
 
-Proyek ini adalah *dashboard* analisis data interaktif untuk dataset publik E-Commerce Olist Brazil. Dibuat menggunakan Python, Streamlit, Pandas, Matplotlib, dan Seaborn untuk memenuhi tugas akhir kelas Belajar Analisis Data dengan Python di Dicoding.
-
-## 📁 Struktur Direktori
-Pastikan struktur folder Anda seperti ini:
-```text
-├── Dashboard/
-│   ├── dashboard.py          # Kode utama aplikasi Streamlit
-│   ├── main_data.csv         # Dataset hasil pembersihan (RFM)
-│   └── delay_analysis.csv    # Dataset hasil pembersihan (Delay/Keterlambatan)
-├── Data/                     # Folder berisi dataset asli (raw data)
-├── Proyek_Analisis_Data.ipynb # Notebook Colab (cleaning, EDA, visualisasi)
-├── requirements.txt          # Daftar library Python yang dibutuhkan
-└── README.md                 # Dokumentasi proyek (File ini)
-
-
-Setup Environment & Run Streamlit
+## Pengaturan Lingkungan - Anaconda
+conda create --name olist-ds python=3.12.10
+conda activate olist-ds
 pip install -r requirements.txt
-cd Dashboard
-python -m streamlit run dashboard.py
+
+## Pengaturan Lingkungan - Shell/Terminal (Windows PowerShell)
+
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+pipenv install
+pipenv shell
+
+Jalankan aplikasi Streamlit
+cd Dashboard  
+python -m streamlit run dashboard.py   
